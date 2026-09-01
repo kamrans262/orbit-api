@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -25,6 +27,7 @@ class User extends Authenticatable
         'password',
         'timezone',
         'locale',
+        'global_ghost_mode',
     ];
 
     /**
@@ -44,6 +47,38 @@ class User extends Authenticatable
     }
 
     /**
+     * @return HasMany<CircleMember, $this>
+     */
+    public function circleMemberships(): HasMany
+    {
+        return $this->hasMany(CircleMember::class);
+    }
+
+    /**
+     * @return HasMany<Circle, $this>
+     */
+    public function createdCircles(): HasMany
+    {
+        return $this->hasMany(Circle::class, 'created_by');
+    }
+
+    /**
+     * @return HasMany<CircleInvite, $this>
+     */
+    public function createdCircleInvites(): HasMany
+    {
+        return $this->hasMany(CircleInvite::class, 'created_by');
+    }
+
+    /**
+     * @return HasOne<PresenceState, $this>
+     */
+    public function presenceState(): HasOne
+    {
+        return $this->hasOne(PresenceState::class);
+    }
+
+    /**
      * @return array<string, string>
      */
     protected function casts(): array
@@ -51,6 +86,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'global_ghost_mode' => 'boolean',
         ];
     }
 }

@@ -9,7 +9,7 @@ use App\Models\User;
 final class UpdateProfileAction
 {
     /**
-     * @param array{name?: string|null, timezone?: string, locale?: string} $data
+     * @param  array{name?: string|null, timezone?: string, locale?: string}  $data
      */
     public function handle(User $user, array $data): User
     {

@@ -6,9 +6,25 @@ use App\Modules\Auth\Http\Controllers\LogoutController;
 use App\Modules\Auth\Http\Controllers\MeController;
 use App\Modules\Auth\Http\Controllers\RequestEmailOtpController;
 use App\Modules\Auth\Http\Controllers\VerifyEmailOtpController;
+use App\Modules\Circles\Http\Controllers\ArchiveCircleController;
+use App\Modules\Circles\Http\Controllers\CreateCircleController;
+use App\Modules\Circles\Http\Controllers\CreateCircleInviteController;
+use App\Modules\Circles\Http\Controllers\JoinCircleController;
+use App\Modules\Circles\Http\Controllers\LeaveCircleController;
+use App\Modules\Circles\Http\Controllers\ListCircleMembersController;
+use App\Modules\Circles\Http\Controllers\ListCirclesController;
+use App\Modules\Circles\Http\Controllers\RemoveCircleMemberController;
+use App\Modules\Circles\Http\Controllers\ShowCircleController;
+use App\Modules\Circles\Http\Controllers\UpdateCircleController;
+use App\Modules\Circles\Http\Controllers\UpdateCircleMemberController;
 use App\Modules\Devices\Http\Controllers\ListDevicesController;
 use App\Modules\Devices\Http\Controllers\RegisterDeviceController;
 use App\Modules\Devices\Http\Controllers\RevokeDeviceController;
+use App\Modules\Presence\Http\Controllers\GetCircleMemberPresenceController;
+use App\Modules\Presence\Http\Controllers\GetMyPresenceController;
+use App\Modules\Presence\Http\Controllers\ListCirclePresenceController;
+use App\Modules\Presence\Http\Controllers\UpdatePresenceController;
+use App\Modules\Presence\Http\Controllers\UpdatePresenceSettingsController;
 use App\Modules\Profile\Http\Controllers\GetProfileController;
 use App\Modules\Profile\Http\Controllers\UpdateProfileController;
 use App\Modules\System\Http\Controllers\HealthController;
@@ -41,5 +57,35 @@ Route::prefix('v1')
             Route::get('/devices', ListDevicesController::class)->name('devices.index');
             Route::post('/devices', RegisterDeviceController::class)->name('devices.store');
             Route::delete('/devices/{deviceId}', RevokeDeviceController::class)->name('devices.revoke');
+
+            Route::prefix('presence')->name('presence.')->group(function (): void {
+                Route::put('/', UpdatePresenceController::class)
+                    ->middleware('throttle:120,1')
+                    ->name('update');
+                Route::get('/me', GetMyPresenceController::class)->name('me');
+                Route::patch('/settings', UpdatePresenceSettingsController::class)->name('settings.update');
+            });
+
+            Route::prefix('circles')->name('circles.')->group(function (): void {
+                Route::get('/', ListCirclesController::class)->name('index');
+                Route::post('/', CreateCircleController::class)->name('store');
+                Route::post('/join', JoinCircleController::class)->name('join');
+
+                Route::get('/{circleId}/presence', ListCirclePresenceController::class)
+                    ->name('presence.index');
+                Route::get('/{circleId}/members/{membershipId}/presence', GetCircleMemberPresenceController::class)
+                    ->name('members.presence.show');
+
+                Route::get('/{circleId}', ShowCircleController::class)->name('show');
+                Route::patch('/{circleId}', UpdateCircleController::class)->name('update');
+                Route::delete('/{circleId}', ArchiveCircleController::class)->name('archive');
+                Route::post('/{circleId}/invites', CreateCircleInviteController::class)->name('invites.store');
+                Route::get('/{circleId}/members', ListCircleMembersController::class)->name('members.index');
+                Route::patch('/{circleId}/members/{membershipId}', UpdateCircleMemberController::class)
+                    ->name('members.update');
+                Route::delete('/{circleId}/members/{membershipId}', RemoveCircleMemberController::class)
+                    ->name('members.destroy');
+                Route::post('/{circleId}/leave', LeaveCircleController::class)->name('leave');
+            });
         });
     });

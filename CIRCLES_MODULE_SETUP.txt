@@ -1,0 +1,43 @@
+ORBIT CIRCLES CORE MODULE
+=========================
+
+Copy/merge the orbit_api folder into:
+C:\laravel-projects\orbit_api
+
+Then run:
+
+php artisan migrate
+php artisan optimize:clear
+vendor\bin\pint
+vendor\bin\pint --test
+php artisan test
+php artisan route:list --path=api/v1/circles
+
+Main authenticated endpoints:
+GET    /api/v1/circles
+POST   /api/v1/circles
+POST   /api/v1/circles/join
+GET    /api/v1/circles/{circleId}
+PATCH  /api/v1/circles/{circleId}
+DELETE /api/v1/circles/{circleId}
+POST   /api/v1/circles/{circleId}/invites
+GET    /api/v1/circles/{circleId}/members
+PATCH  /api/v1/circles/{circleId}/members/{membershipId}
+DELETE /api/v1/circles/{circleId}/members/{membershipId}
+POST   /api/v1/circles/{circleId}/leave
+
+Privacy defaults:
+- New Circle owner: location_mode = hidden
+- New joined member: location_mode = hidden
+- Members can change only their own privacy settings
+
+Role rules:
+- owner: full Circle/member control; cannot leave until ownership transfer exists
+- admin: can manage normal/restricted members, but cannot manage owner or other admins
+- member/restricted: cannot manage other members
+- ownership transfer is intentionally reserved for a dedicated future endpoint so there is always one owner
+
+Invite security:
+- Plain invite code is returned only when an invite is created
+- Database stores only SHA-256 hash of the code
+- Invite expiry and maximum uses are enforced transactionally

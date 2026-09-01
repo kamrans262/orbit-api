@@ -6,6 +6,4 @@ namespace App\Modules\Auth\Exceptions;
 
 use RuntimeException;
 
-final class EmailOtpDeliveryException extends RuntimeException
-{
-}
+final class EmailOtpDeliveryException extends RuntimeException {}
