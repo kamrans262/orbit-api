@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CircleMember extends Model
 {
@@ -44,6 +45,22 @@ class CircleMember extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return HasMany<Ping, $this>
+     */
+    public function sentPings(): HasMany
+    {
+        return $this->hasMany(Ping::class, 'sender_membership_id');
+    }
+
+    /**
+     * @return HasMany<Ping, $this>
+     */
+    public function receivedPings(): HasMany
+    {
+        return $this->hasMany(Ping::class, 'recipient_membership_id');
     }
 
     /**

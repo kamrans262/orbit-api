@@ -19,4 +19,15 @@ return [
         // Two decimal places is roughly neighborhood-level precision.
         'approximate_precision_decimals' => 2,
     ],
+
+    'ping' => [
+        // A Ping is intentionally short-lived and lightweight.
+        'ttl_seconds' => 120,
+
+        // Prevent accidental rapid duplicate Pings to the same member.
+        'cooldown_seconds' => 10,
+
+        // Keep inbox/sent responses bounded until cursor pagination is needed.
+        'list_limit' => 50,
+    ],
 ];

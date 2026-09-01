@@ -20,6 +20,11 @@ use App\Modules\Circles\Http\Controllers\UpdateCircleMemberController;
 use App\Modules\Devices\Http\Controllers\ListDevicesController;
 use App\Modules\Devices\Http\Controllers\RegisterDeviceController;
 use App\Modules\Devices\Http\Controllers\RevokeDeviceController;
+use App\Modules\Ping\Http\Controllers\DismissPingController;
+use App\Modules\Ping\Http\Controllers\ListPingInboxController;
+use App\Modules\Ping\Http\Controllers\ListSentPingsController;
+use App\Modules\Ping\Http\Controllers\RespondToPingController;
+use App\Modules\Ping\Http\Controllers\SendPingController;
 use App\Modules\Presence\Http\Controllers\GetCircleMemberPresenceController;
 use App\Modules\Presence\Http\Controllers\GetMyPresenceController;
 use App\Modules\Presence\Http\Controllers\ListCirclePresenceController;
@@ -64,6 +69,20 @@ Route::prefix('v1')
                     ->name('update');
                 Route::get('/me', GetMyPresenceController::class)->name('me');
                 Route::patch('/settings', UpdatePresenceSettingsController::class)->name('settings.update');
+            });
+
+            Route::prefix('pings')->name('pings.')->group(function (): void {
+                Route::get('/inbox', ListPingInboxController::class)->name('inbox');
+                Route::get('/sent', ListSentPingsController::class)->name('sent');
+                Route::post('/', SendPingController::class)
+                    ->middleware('throttle:30,1')
+                    ->name('store');
+                Route::post('/{pingId}/respond', RespondToPingController::class)
+                    ->middleware('throttle:60,1')
+                    ->name('respond');
+                Route::post('/{pingId}/dismiss', DismissPingController::class)
+                    ->middleware('throttle:60,1')
+                    ->name('dismiss');
             });
 
             Route::prefix('circles')->name('circles.')->group(function (): void {
