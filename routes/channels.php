@@ -27,3 +27,5 @@ Broadcast::channel('devices.{deviceId}', function (User $user, string $deviceId)
 });
 
 require __DIR__.'/channels_sos.php';
+
+require __DIR__.'/channels_notifications.php';

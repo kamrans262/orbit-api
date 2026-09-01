@@ -148,3 +148,5 @@ require __DIR__.'/moments.php';
 require __DIR__.'/sos.php';
 
 require __DIR__.'/activity.php';
+
+require __DIR__.'/notifications.php';
