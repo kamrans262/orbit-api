@@ -25,3 +25,5 @@ Broadcast::channel('devices.{deviceId}', function (User $user, string $deviceId)
         ->whereNull('revoked_at')
         ->exists();
 });
+
+require __DIR__.'/channels_sos.php';

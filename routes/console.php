@@ -11,3 +11,5 @@ Schedule::command('orbit:messages:purge-expired')
 Schedule::command('orbit:media:purge-stale')->hourly();
 
 Schedule::command('orbit:moments:purge-expired')->hourly();
+
+require __DIR__.'/console_sos.php';
