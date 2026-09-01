@@ -12,22 +12,20 @@ return [
     ],
 
     'presence' => [
-        // Presence older than this is presented as offline. The latest permitted
-        // location can still be returned with its timestamp unless privacy hides it.
         'offline_after_seconds' => 120,
-
-        // Two decimal places is roughly neighborhood-level precision.
         'approximate_precision_decimals' => 2,
     ],
 
     'ping' => [
-        // A Ping is intentionally short-lived and lightweight.
         'ttl_seconds' => 120,
-
-        // Prevent accidental rapid duplicate Pings to the same member.
         'cooldown_seconds' => 10,
-
-        // Keep inbox/sent responses bounded until cursor pagination is needed.
         'list_limit' => 50,
+    ],
+
+    'messaging' => [
+        'server_retention_days' => 30,
+        'sync_limit_max' => 200,
+        'typing_throttle_seconds' => 3,
+        'typing_expiry_seconds' => 5,
     ],
 ];

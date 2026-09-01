@@ -20,6 +20,15 @@ use App\Modules\Circles\Http\Controllers\UpdateCircleMemberController;
 use App\Modules\Devices\Http\Controllers\ListDevicesController;
 use App\Modules\Devices\Http\Controllers\RegisterDeviceController;
 use App\Modules\Devices\Http\Controllers\RevokeDeviceController;
+use App\Modules\Messaging\Http\Controllers\AcknowledgeMessageDeliveryController;
+use App\Modules\Messaging\Http\Controllers\GetCircleMessageDevicesController;
+use App\Modules\Messaging\Http\Controllers\GetMessagingSettingsController;
+use App\Modules\Messaging\Http\Controllers\ListCircleMessagesController;
+use App\Modules\Messaging\Http\Controllers\MarkMessageReadController;
+use App\Modules\Messaging\Http\Controllers\SendEncryptedMessageController;
+use App\Modules\Messaging\Http\Controllers\SyncMessagesController;
+use App\Modules\Messaging\Http\Controllers\TypingIndicatorController;
+use App\Modules\Messaging\Http\Controllers\UpdateMessagingSettingsController;
 use App\Modules\Ping\Http\Controllers\DismissPingController;
 use App\Modules\Ping\Http\Controllers\ListPingInboxController;
 use App\Modules\Ping\Http\Controllers\ListSentPingsController;
@@ -85,6 +94,15 @@ Route::prefix('v1')
                     ->name('dismiss');
             });
 
+            Route::prefix('messaging')->name('messaging.')->group(function (): void {
+                Route::get('/settings', GetMessagingSettingsController::class)->name('settings.show');
+                Route::patch('/settings', UpdateMessagingSettingsController::class)->name('settings.update');
+            });
+
+            Route::get('/messages/sync', SyncMessagesController::class)->name('messages.sync');
+            Route::post('/message-envelopes/{envelopeId}/delivered', AcknowledgeMessageDeliveryController::class)
+                ->name('message-envelopes.delivered');
+
             Route::prefix('circles')->name('circles.')->group(function (): void {
                 Route::get('/', ListCirclesController::class)->name('index');
                 Route::post('/', CreateCircleController::class)->name('store');
@@ -94,6 +112,20 @@ Route::prefix('v1')
                     ->name('presence.index');
                 Route::get('/{circleId}/members/{membershipId}/presence', GetCircleMemberPresenceController::class)
                     ->name('members.presence.show');
+
+                Route::get('/{circleId}/message-devices', GetCircleMessageDevicesController::class)
+                    ->name('message-devices.index');
+                Route::get('/{circleId}/messages', ListCircleMessagesController::class)
+                    ->name('messages.index');
+                Route::post('/{circleId}/messages', SendEncryptedMessageController::class)
+                    ->middleware('throttle:120,1')
+                    ->name('messages.store');
+                Route::post('/{circleId}/messages/{messageId}/read', MarkMessageReadController::class)
+                    ->middleware('throttle:120,1')
+                    ->name('messages.read');
+                Route::post('/{circleId}/typing', TypingIndicatorController::class)
+                    ->middleware('throttle:120,1')
+                    ->name('typing');
 
                 Route::get('/{circleId}', ShowCircleController::class)->name('show');
                 Route::patch('/{circleId}', UpdateCircleController::class)->name('update');
