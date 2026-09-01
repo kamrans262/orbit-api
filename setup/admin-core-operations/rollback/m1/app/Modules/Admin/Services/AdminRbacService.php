@@ -21,18 +21,6 @@ final class AdminRbacService
         ['name' => 'View Admin Audit', 'slug' => 'audit.view', 'description' => 'Read immutable administrator audit history.', 'is_sensitive' => false],
         ['name' => 'View Admin Security', 'slug' => 'security.view', 'description' => 'View administrator login and security events.', 'is_sensitive' => false],
         ['name' => 'Reveal Sensitive Fields', 'slug' => 'sensitive_fields.reveal', 'description' => 'Reveal separately controlled sensitive fields when a domain explicitly supports it.', 'is_sensitive' => true],
-
-        ['name' => 'View Users', 'slug' => 'users.view', 'description' => 'View user directory and safe operational account metadata.', 'is_sensitive' => false],
-        ['name' => 'Manage User Controls', 'slug' => 'users.controls.manage', 'description' => 'Suspend, reactivate, restrict, rate-limit, classify, and require re-verification for consumer accounts.', 'is_sensitive' => true],
-        ['name' => 'View User Sessions', 'slug' => 'users.sessions.view', 'description' => 'View consumer hardened session metadata.', 'is_sensitive' => false],
-        ['name' => 'Revoke User Sessions', 'slug' => 'users.sessions.revoke', 'description' => 'Force logout or revoke consumer hardened sessions.', 'is_sensitive' => true],
-        ['name' => 'View User Devices', 'slug' => 'users.devices.view', 'description' => 'View safe consumer device metadata without push tokens or private keys.', 'is_sensitive' => false],
-        ['name' => 'Manage User Devices', 'slug' => 'users.devices.manage', 'description' => 'Revoke devices, force token rotation, mark suspicious, and require verification.', 'is_sensitive' => true],
-        ['name' => 'Manage User Notes', 'slug' => 'users.notes.manage', 'description' => 'Create and manage internal operational user notes and tags.', 'is_sensitive' => false],
-        ['name' => 'View Circles', 'slug' => 'circles.view', 'description' => 'View Circle directory, members, controls, and safe operational metadata.', 'is_sensitive' => false],
-        ['name' => 'Manage Circle Controls', 'slug' => 'circles.controls.manage', 'description' => 'Freeze, archive, restore, remove, or restrict Circles.', 'is_sensitive' => true],
-        ['name' => 'Enforce Circle Membership', 'slug' => 'circles.members.enforce', 'description' => 'Remove non-owner Circle members for enforcement.', 'is_sensitive' => true],
-        ['name' => 'Manage Circle Notes', 'slug' => 'circles.notes.manage', 'description' => 'Create and manage internal operational Circle notes and tags.', 'is_sensitive' => false],
     ];
 
     private const array ROLES = [
@@ -76,29 +64,10 @@ final class AdminRbacService
             'super-administrator' => [
                 'admin.access', 'admins.view', 'admins.manage', 'roles.view', 'roles.manage',
                 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view',
-                'users.view', 'users.controls.manage', 'users.sessions.view', 'users.sessions.revoke',
-                'users.devices.view', 'users.devices.manage', 'users.notes.manage',
-                'circles.view', 'circles.controls.manage', 'circles.members.enforce', 'circles.notes.manage',
             ],
-            'platform-administrator' => [
-                'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'audit.view',
-                'users.view', 'users.controls.manage', 'users.sessions.view', 'users.sessions.revoke',
-                'users.devices.view', 'users.devices.manage', 'users.notes.manage',
-                'circles.view', 'circles.controls.manage', 'circles.members.enforce', 'circles.notes.manage',
-            ],
-            'security-administrator' => [
-                'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view',
-                'users.view', 'users.sessions.view', 'users.sessions.revoke', 'users.devices.view', 'users.devices.manage',
-            ],
-            'support-agent' => [
-                'admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'users.notes.manage', 'circles.view',
-            ],
-            'moderator' => ['admin.access', 'users.view', 'circles.view', 'users.notes.manage', 'circles.notes.manage'],
-            'safety-operator', 'senior-safety-operator' => ['admin.access', 'users.view', 'users.devices.view', 'circles.view'],
-            'compliance-officer' => ['admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view'],
-            'read-only' => [
-                'admin.access', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view',
-            ],
+            'platform-administrator' => ['admin.access', 'admins.view', 'roles.view', 'sessions.view', 'audit.view'],
+            'security-administrator' => ['admin.access', 'admins.view', 'roles.view', 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view'],
+            'read-only' => ['admin.access', 'admins.view', 'roles.view', 'audit.view'],
             default => ['admin.access'],
         };
 
