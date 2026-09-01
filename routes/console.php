@@ -9,3 +9,5 @@ Schedule::command('orbit:messages:purge-expired')
     ->withoutOverlapping();
 
 Schedule::command('orbit:media:purge-stale')->hourly();
+
+Schedule::command('orbit:moments:purge-expired')->hourly();
