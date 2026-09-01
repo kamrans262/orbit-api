@@ -7,6 +7,7 @@ namespace App\Modules\Presence\Actions;
 use App\Models\Device;
 use App\Models\PresenceState;
 use App\Models\User;
+use App\Modules\Presence\Events\PresenceUpdated;
 use App\Modules\Presence\Exceptions\PresenceException;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,7 @@ final class UpdatePresenceAction
      */
     public function handle(User $user, array $data): PresenceState
     {
-        return DB::transaction(function () use ($user, $data): PresenceState {
+        $presence = DB::transaction(function () use ($user, $data): PresenceState {
             $device = $this->resolveDevice($user, $data);
 
             $presence = PresenceState::query()->firstOrNew([
@@ -51,7 +52,8 @@ final class UpdatePresenceAction
                 $presence->device_id = $device?->id;
             }
 
-            $locationWasProvided = array_key_exists('latitude', $data) && array_key_exists('longitude', $data);
+            $locationWasProvided = array_key_exists('latitude', $data)
+                && array_key_exists('longitude', $data);
 
             if ($locationWasProvided) {
                 $presence->latitude = $data['latitude'];
@@ -66,7 +68,7 @@ final class UpdatePresenceAction
                 }
             }
 
-            if ($user->global_ghost_mode) {
+            if ((bool) ($user->global_ghost_mode ?? false)) {
                 $presence->latitude = null;
                 $presence->longitude = null;
                 $presence->accuracy_meters = null;
@@ -83,6 +85,10 @@ final class UpdatePresenceAction
 
             return $presence->refresh();
         });
+
+        PresenceUpdated::dispatch($user->id);
+
+        return $presence;
     }
 
     /**

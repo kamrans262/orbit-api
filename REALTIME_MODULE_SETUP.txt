@@ -1,0 +1,69 @@
+ORBIT REALTIME / LARAVEL REVERB MODULE
+
+This module connects the existing Ping and Presence domains to realtime private
+WebSocket channels while preserving Circle privacy.
+
+1. Copy / merge the top-level orbit_api folder into:
+   C:\laravel-projects\orbit_api
+
+2. Open PowerShell in:
+   C:\laravel-projects\orbit_api
+
+3. Run the one-time setup script:
+   Set-ExecutionPolicy -Scope Process Bypass
+   .\setup\realtime\install-realtime.ps1
+
+4. Verify:
+   vendor\bin\pint
+   vendor\bin\pint --test
+   php artisan test
+   php artisan event:list
+
+5. Start normal Laravel API in terminal 1:
+   php artisan serve
+
+6. Start realtime Reverb server in terminal 2:
+   php artisan reverb:start --debug
+
+LOCAL REALTIME DEFAULTS
+Laravel API: http://127.0.0.1:8000
+Reverb:      ws://127.0.0.1:8080
+
+PRIVATE CHANNELS
+private-users.{userId}
+- only that authenticated user may subscribe.
+
+private-circles.{circleId}
+- only authenticated members of that Circle may subscribe.
+
+MOBILE AUTH ROUTE
+POST /api/broadcasting/auth
+The route uses:
+api + auth:sanctum
+so the future Flutter app can authenticate private channel subscriptions using the
+same Bearer token already returned by Orbit email OTP login.
+
+REALTIME EVENTS
+ping.received
+- private-users.{recipientUserId}
+
+ping.responded
+- private-users.{originalSenderUserId}
+
+presence.updated
+- private-circles.{circleId}
+
+PRIVACY
+Presence is filtered by PresencePresenter before it becomes a broadcast payload.
+Approximate / Hidden / Ghost rules therefore remain server-authoritative.
+Raw coordinates are never broadcast into a Circle that is not allowed to see them.
+
+WHY ShouldBroadcastNow?
+Ping and Presence are latency-sensitive. This milestone sends them immediately
+instead of waiting behind ordinary database queue jobs. Messaging will get its own
+delivery/outbox design in the next major module.
+
+PRODUCTION
+Do not reuse local Reverb credentials in production.
+When deploying to the Hostinger VPS later, production .env values and a process
+manager / reverse proxy will be configured separately.

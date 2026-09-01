@@ -6,13 +6,14 @@ namespace App\Modules\Presence\Actions;
 
 use App\Models\PresenceState;
 use App\Models\User;
+use App\Modules\Presence\Events\PresenceUpdated;
 use Illuminate\Support\Facades\DB;
 
 final class UpdatePresenceSettingsAction
 {
     public function handle(User $user, bool $globalGhostMode): User
     {
-        return DB::transaction(function () use ($user, $globalGhostMode): User {
+        $updatedUser = DB::transaction(function () use ($user, $globalGhostMode): User {
             $user->forceFill([
                 'global_ghost_mode' => $globalGhostMode,
             ])->save();
@@ -31,5 +32,9 @@ final class UpdatePresenceSettingsAction
 
             return $user->refresh();
         });
+
+        PresenceUpdated::dispatch($user->id);
+
+        return $updatedUser;
     }
 }
