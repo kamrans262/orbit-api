@@ -150,3 +150,5 @@ require __DIR__.'/sos.php';
 require __DIR__.'/activity.php';
 
 require __DIR__.'/notifications.php';
+
+require __DIR__.'/identity.php';

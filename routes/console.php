@@ -15,3 +15,5 @@ Schedule::command('orbit:moments:purge-expired')->hourly();
 require __DIR__.'/console_sos.php';
 
 require __DIR__.'/console_notifications.php';
+
+require __DIR__.'/console_identity.php';
