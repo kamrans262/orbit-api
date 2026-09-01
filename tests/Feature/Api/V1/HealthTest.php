@@ -11,14 +11,5 @@ it('returns the Orbit API health response', function (): void {
         ->assertJsonPath('message', 'Orbit API is healthy.')
         ->assertJsonPath('data.service', 'orbit-api')
         ->assertJsonPath('data.status', 'ok')
-        ->assertJsonPath('data.api_version', 'v1')
-        ->assertJsonStructure([
-            'success',
-            'message',
-            'data' => [
-                'service',
-                'status',
-                'api_version',
-            ],
-        ]);
+        ->assertJsonPath('data.api_version', 'v1');
 });

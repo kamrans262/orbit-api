@@ -1,0 +1,66 @@
+ORBIT EMAIL OTP SETUP
+=====================
+
+This package is designed to be copied/merged into:
+C:\laravel-projects\orbit_api
+
+LOCAL DEVELOPMENT
+-----------------
+Keep Laravel's mailer in log mode in your existing .env:
+
+MAIL_MAILER=log
+MAIL_FROM_ADDRESS="no-reply@orbit.local"
+MAIL_FROM_NAME="Orbit"
+
+Request an OTP with:
+POST http://127.0.0.1:8000/api/v1/auth/email-otp/request
+JSON: {"email":"you@example.com"}
+
+The OTP is deliberately written to:
+storage/logs/laravel.log
+
+The real Laravel Mail pipeline is still used. With MAIL_MAILER=log Laravel logs the
+email instead of sending it externally. The delivery service also writes one clean,
+local-only log line containing the OTP so it is easy to find during development.
+
+PRODUCTION
+----------
+No authentication code changes are required. Configure a real SMTP provider in the
+production .env, for example:
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.your-provider.com
+MAIL_PORT=587
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="no-reply@yourdomain.com"
+MAIL_FROM_NAME="Orbit"
+
+Providers such as Hostinger Email, Brevo, Mailgun SMTP, SendGrid SMTP, Amazon SES SMTP,
+Postmark SMTP, Resend SMTP, etc. can be used by supplying their SMTP credentials.
+
+IMPORTANT:
+- APP_ENV must be production in production.
+- APP_DEBUG must be false in production.
+- Production OTPs are NOT written to the application log.
+- OTP values are never stored plaintext in the database; only a secure hash is stored.
+- Keep .env out of Git.
+
+AFTER COPYING THE PACKAGE
+-------------------------
+Run:
+php artisan migrate
+php artisan optimize:clear
+php artisan test
+vendor\bin\pint --test
+
+Then start locally:
+php artisan serve
+
+Endpoints:
+GET  /api/v1/health
+POST /api/v1/auth/email-otp/request
+POST /api/v1/auth/email-otp/verify
+GET  /api/v1/auth/me      (Bearer token required)
+POST /api/v1/auth/logout  (Bearer token required)
