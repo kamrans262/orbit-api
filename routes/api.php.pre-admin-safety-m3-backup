@@ -154,5 +154,3 @@ require __DIR__.'/notifications.php';
 require __DIR__.'/identity.php';
 
 require __DIR__.'/admin.php';
-
-require __DIR__.'/admin_sos.php';

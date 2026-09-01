@@ -1,7 +1,6 @@
 <?php
 
 use App\Providers\ActivityServiceProvider;
-use App\Providers\AdminSafetyServiceProvider;
 use App\Providers\AdminServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\IdentityServiceProvider;
@@ -13,5 +12,4 @@ return [
     NotificationsServiceProvider::class,
     IdentityServiceProvider::class,
     AdminServiceProvider::class,
-    AdminSafetyServiceProvider::class,
 ];

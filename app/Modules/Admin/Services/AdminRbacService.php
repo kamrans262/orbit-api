@@ -33,6 +33,13 @@ final class AdminRbacService
         ['name' => 'Manage Circle Controls', 'slug' => 'circles.controls.manage', 'description' => 'Freeze, archive, restore, remove, or restrict Circles.', 'is_sensitive' => true],
         ['name' => 'Enforce Circle Membership', 'slug' => 'circles.members.enforce', 'description' => 'Remove non-owner Circle members for enforcement.', 'is_sensitive' => true],
         ['name' => 'Manage Circle Notes', 'slug' => 'circles.notes.manage', 'description' => 'Create and manage internal operational Circle notes and tags.', 'is_sensitive' => false],
+
+        ['name' => 'View SOS Operations', 'slug' => 'sos.view', 'description' => 'View SOS command-center incidents and safe operational metadata.', 'is_sensitive' => false],
+        ['name' => 'Manage SOS Operations', 'slug' => 'sos.manage', 'description' => 'Assign, classify, annotate, and operationally manage SOS incidents.', 'is_sensitive' => true],
+        ['name' => 'Export SOS Incidents', 'slug' => 'sos.export', 'description' => 'Create audited privacy-preserving SOS incident exports.', 'is_sensitive' => true],
+        ['name' => 'Access Precise SOS Location', 'slug' => 'sos.location.access', 'description' => 'View precise SOS location after reauthentication and reason capture.', 'is_sensitive' => true],
+        ['name' => 'Access SOS Recording Reference', 'slug' => 'sos.recordings.access', 'description' => 'View the opaque encrypted SOS recording reference after reauthentication and reason capture.', 'is_sensitive' => true],
+        ['name' => 'View SOS Sensitive Access History', 'slug' => 'sos.sensitive.audit', 'description' => 'Review immutable sensitive SOS access records.', 'is_sensitive' => true],
     ];
 
     private const array ROLES = [
@@ -79,25 +86,36 @@ final class AdminRbacService
                 'users.view', 'users.controls.manage', 'users.sessions.view', 'users.sessions.revoke',
                 'users.devices.view', 'users.devices.manage', 'users.notes.manage',
                 'circles.view', 'circles.controls.manage', 'circles.members.enforce', 'circles.notes.manage',
+                'sos.view', 'sos.manage', 'sos.export',
             ],
             'platform-administrator' => [
                 'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'audit.view',
                 'users.view', 'users.controls.manage', 'users.sessions.view', 'users.sessions.revoke',
                 'users.devices.view', 'users.devices.manage', 'users.notes.manage',
                 'circles.view', 'circles.controls.manage', 'circles.members.enforce', 'circles.notes.manage',
+                'sos.view',
             ],
             'security-administrator' => [
                 'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view',
                 'users.view', 'users.sessions.view', 'users.sessions.revoke', 'users.devices.view', 'users.devices.manage',
+                'sos.view', 'sos.sensitive.audit',
             ],
             'support-agent' => [
                 'admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'users.notes.manage', 'circles.view',
             ],
-            'moderator' => ['admin.access', 'users.view', 'circles.view', 'users.notes.manage', 'circles.notes.manage'],
-            'safety-operator', 'senior-safety-operator' => ['admin.access', 'users.view', 'users.devices.view', 'circles.view'],
-            'compliance-officer' => ['admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view'],
+            'moderator' => ['admin.access', 'users.view', 'circles.view', 'users.notes.manage', 'circles.notes.manage', 'sos.view'],
+            'safety-operator' => [
+                'admin.access', 'users.view', 'users.devices.view', 'circles.view',
+                'sos.view', 'sos.manage',
+            ],
+            'senior-safety-operator' => [
+                'admin.access', 'users.view', 'users.devices.view', 'circles.view', 'audit.view',
+                'sos.view', 'sos.manage', 'sos.export', 'sos.location.access',
+                'sos.recordings.access', 'sos.sensitive.audit',
+            ],
+            'compliance-officer' => ['admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view', 'sos.view', 'sos.sensitive.audit'],
             'read-only' => [
-                'admin.access', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view',
+                'admin.access', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'sos.view',
             ],
             default => ['admin.access'],
         };
