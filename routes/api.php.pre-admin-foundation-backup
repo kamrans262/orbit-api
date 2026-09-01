@@ -152,5 +152,3 @@ require __DIR__.'/activity.php';
 require __DIR__.'/notifications.php';
 
 require __DIR__.'/identity.php';
-
-require __DIR__.'/admin.php';
