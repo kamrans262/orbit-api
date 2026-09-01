@@ -7,3 +7,5 @@ use Illuminate\Support\Facades\Schedule;
 Schedule::command('orbit:messages:purge-expired')
     ->hourly()
     ->withoutOverlapping();
+
+Schedule::command('orbit:media:purge-stale')->hourly();
