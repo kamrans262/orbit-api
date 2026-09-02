@@ -6,7 +6,6 @@ use App\Providers\AdminServiceProvider;
 use App\Providers\AppServiceProvider;
 use App\Providers\IdentityServiceProvider;
 use App\Providers\NotificationsServiceProvider;
-use App\Providers\PrivacySupportServiceProvider;
 
 return [
     AppServiceProvider::class,
@@ -15,5 +14,4 @@ return [
     IdentityServiceProvider::class,
     AdminServiceProvider::class,
     AdminSafetyServiceProvider::class,
-    PrivacySupportServiceProvider::class,
 ];

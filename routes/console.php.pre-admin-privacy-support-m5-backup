@@ -21,5 +21,3 @@ require __DIR__.'/console_identity.php';
 require __DIR__.'/console_admin.php';
 
 require __DIR__.'/console_admin_sos.php';
-
-require __DIR__.'/console_privacy_support.php';

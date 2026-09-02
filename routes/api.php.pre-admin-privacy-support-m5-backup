@@ -160,7 +160,3 @@ require __DIR__.'/admin_sos.php';
 require __DIR__.'/moderation.php';
 
 require __DIR__.'/admin_moderation.php';
-
-require __DIR__.'/privacy_support.php';
-
-require __DIR__.'/admin_privacy_support.php';

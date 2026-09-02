@@ -52,6 +52,19 @@ final class AdminRbacService
         ['name' => 'Second Review Appeals', 'slug' => 'appeals.second_review', 'description' => 'Perform required independent second review of sensitive appeal decisions.', 'is_sensitive' => true],
         ['name' => 'View Risk Center', 'slug' => 'risk.view', 'description' => 'View user abuse and risk profiles and signal timelines.', 'is_sensitive' => false],
         ['name' => 'Manage Risk Signals', 'slug' => 'risk.manage', 'description' => 'Create and resolve audited abuse and risk signals.', 'is_sensitive' => true],
+        ['name' => 'View Privacy Requests', 'slug' => 'privacy.view', 'description' => 'View privacy requests, deletion state, and safe export metadata.', 'is_sensitive' => false],
+        ['name' => 'Manage Privacy Requests', 'slug' => 'privacy.manage', 'description' => 'Update privacy request workflow, deadlines, and resolution state.', 'is_sensitive' => false],
+        ['name' => 'Assign Privacy Requests', 'slug' => 'privacy.assign', 'description' => 'Assign privacy and compliance requests to eligible administrators.', 'is_sensitive' => false],
+        ['name' => 'Verify Privacy Identity', 'slug' => 'privacy.identity.verify', 'description' => 'Record a verified identity check for a privacy request after reauthentication.', 'is_sensitive' => true],
+        ['name' => 'Manage Data Exports', 'slug' => 'privacy.exports.manage', 'description' => 'Review and regenerate expired or failed user data exports.', 'is_sensitive' => true],
+        ['name' => 'Deliver Data Exports', 'slug' => 'privacy.exports.deliver', 'description' => 'Generate and revoke time-limited audited data export delivery links.', 'is_sensitive' => true],
+        ['name' => 'Manage Account Deletions', 'slug' => 'privacy.deletions.manage', 'description' => 'Supervise due account deletion finalization or verified cancellation.', 'is_sensitive' => true],
+        ['name' => 'View Support', 'slug' => 'support.view', 'description' => 'View support tickets and customer-visible conversation history.', 'is_sensitive' => false],
+        ['name' => 'Manage Support', 'slug' => 'support.manage', 'description' => 'Change support priority, workflow, SLA, escalation, and resolution.', 'is_sensitive' => false],
+        ['name' => 'Assign Support', 'slug' => 'support.assign', 'description' => 'Assign and reassign support tickets.', 'is_sensitive' => false],
+        ['name' => 'Reply to Support', 'slug' => 'support.reply', 'description' => 'Send customer-visible support replies.', 'is_sensitive' => false],
+        ['name' => 'Manage Support Notes', 'slug' => 'support.notes.manage', 'description' => 'Create internal support-only notes and links.', 'is_sensitive' => false],
+        ['name' => 'View Contact History', 'slug' => 'contact_history.view', 'description' => 'View immutable user contact and operational communication history.', 'is_sensitive' => false],
     ];
 
     private const array ROLES = [
@@ -101,6 +114,8 @@ final class AdminRbacService
                 'sos.view', 'sos.manage', 'sos.export',
                 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce',
                 'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage',
+                'privacy.view', 'privacy.manage', 'privacy.assign',
+                'support.view', 'support.manage', 'support.assign', 'support.reply', 'support.notes.manage', 'contact_history.view',
             ],
             'platform-administrator' => [
                 'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'audit.view',
@@ -110,15 +125,19 @@ final class AdminRbacService
                 'sos.view',
                 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage',
                 'appeals.view', 'appeals.assign', 'risk.view',
+                'privacy.view', 'privacy.manage', 'privacy.assign',
+                'support.view', 'support.manage', 'support.assign', 'support.reply', 'support.notes.manage', 'contact_history.view',
             ],
             'security-administrator' => [
                 'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view',
                 'users.view', 'users.sessions.view', 'users.sessions.revoke', 'users.devices.view', 'users.devices.manage',
                 'sos.view', 'sos.sensitive.audit', 'reports.view', 'appeals.view', 'risk.view', 'risk.manage',
+                'privacy.view', 'contact_history.view',
             ],
             'support-agent' => [
                 'admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'users.notes.manage', 'circles.view',
                 'reports.view', 'appeals.view', 'risk.view',
+                'privacy.view', 'support.view', 'support.manage', 'support.assign', 'support.reply', 'support.notes.manage', 'contact_history.view',
             ],
             'moderator' => ['admin.access', 'users.view', 'circles.view', 'users.notes.manage', 'circles.notes.manage', 'sos.view', 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce', 'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage'],
             'safety-operator' => [
@@ -130,9 +149,17 @@ final class AdminRbacService
                 'sos.view', 'sos.manage', 'sos.export', 'sos.location.access',
                 'sos.recordings.access', 'sos.sensitive.audit', 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce', 'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage',
             ],
-            'compliance-officer' => ['admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view', 'sos.view', 'sos.sensitive.audit', 'reports.view', 'appeals.view', 'risk.view'],
+            'compliance-officer' => [
+                'admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view',
+                'sos.view', 'sos.sensitive.audit', 'reports.view', 'appeals.view', 'risk.view',
+                'privacy.view', 'privacy.manage', 'privacy.assign', 'privacy.identity.verify',
+                'privacy.exports.manage', 'privacy.exports.deliver', 'privacy.deletions.manage',
+                'support.view', 'contact_history.view',
+            ],
             'read-only' => [
-                'admin.access', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'sos.view', 'reports.view', 'appeals.view', 'risk.view',
+                'admin.access', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view',
+                'circles.view', 'sos.view', 'reports.view', 'appeals.view', 'risk.view',
+                'privacy.view', 'support.view', 'contact_history.view',
             ],
             default => ['admin.access'],
         };
