@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+use Illuminate\Support\Facades\Schedule;
+
+Schedule::command('orbit:messages:purge-expired')
+    ->hourly()
+    ->withoutOverlapping();
+
+Schedule::command('orbit:media:purge-stale')->hourly();
+
+Schedule::command('orbit:moments:purge-expired')->hourly();
+
+require __DIR__.'/console_sos.php';
+
+require __DIR__.'/console_notifications.php';
+
+require __DIR__.'/console_identity.php';
+
+require __DIR__.'/console_admin.php';
+
+require __DIR__.'/console_admin_sos.php';
+
+require __DIR__.'/console_privacy_support.php';
+require __DIR__.'/console_billing_advertising.php';
+require __DIR__.'/console_communications_content.php';

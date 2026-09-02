@@ -1,0 +1,171 @@
+<?php
+
+declare(strict_types=1);
+
+use App\Modules\Auth\Http\Controllers\LogoutController;
+use App\Modules\Auth\Http\Controllers\MeController;
+use App\Modules\Auth\Http\Controllers\RequestEmailOtpController;
+use App\Modules\Auth\Http\Controllers\VerifyEmailOtpController;
+use App\Modules\Circles\Http\Controllers\ArchiveCircleController;
+use App\Modules\Circles\Http\Controllers\CreateCircleController;
+use App\Modules\Circles\Http\Controllers\CreateCircleInviteController;
+use App\Modules\Circles\Http\Controllers\JoinCircleController;
+use App\Modules\Circles\Http\Controllers\LeaveCircleController;
+use App\Modules\Circles\Http\Controllers\ListCircleMembersController;
+use App\Modules\Circles\Http\Controllers\ListCirclesController;
+use App\Modules\Circles\Http\Controllers\RemoveCircleMemberController;
+use App\Modules\Circles\Http\Controllers\ShowCircleController;
+use App\Modules\Circles\Http\Controllers\UpdateCircleController;
+use App\Modules\Circles\Http\Controllers\UpdateCircleMemberController;
+use App\Modules\Devices\Http\Controllers\ListDevicesController;
+use App\Modules\Devices\Http\Controllers\RegisterDeviceController;
+use App\Modules\Devices\Http\Controllers\RevokeDeviceController;
+use App\Modules\Messaging\Http\Controllers\AcknowledgeMessageDeliveryController;
+use App\Modules\Messaging\Http\Controllers\GetCircleMessageDevicesController;
+use App\Modules\Messaging\Http\Controllers\GetMessagingSettingsController;
+use App\Modules\Messaging\Http\Controllers\ListCircleMessagesController;
+use App\Modules\Messaging\Http\Controllers\MarkMessageReadController;
+use App\Modules\Messaging\Http\Controllers\SendEncryptedMessageController;
+use App\Modules\Messaging\Http\Controllers\SyncMessagesController;
+use App\Modules\Messaging\Http\Controllers\TypingIndicatorController;
+use App\Modules\Messaging\Http\Controllers\UpdateMessagingSettingsController;
+use App\Modules\Ping\Http\Controllers\DismissPingController;
+use App\Modules\Ping\Http\Controllers\ListPingInboxController;
+use App\Modules\Ping\Http\Controllers\ListSentPingsController;
+use App\Modules\Ping\Http\Controllers\RespondToPingController;
+use App\Modules\Ping\Http\Controllers\SendPingController;
+use App\Modules\Presence\Http\Controllers\GetCircleMemberPresenceController;
+use App\Modules\Presence\Http\Controllers\GetMyPresenceController;
+use App\Modules\Presence\Http\Controllers\ListCirclePresenceController;
+use App\Modules\Presence\Http\Controllers\UpdatePresenceController;
+use App\Modules\Presence\Http\Controllers\UpdatePresenceSettingsController;
+use App\Modules\Profile\Http\Controllers\GetProfileController;
+use App\Modules\Profile\Http\Controllers\UpdateProfileController;
+use App\Modules\System\Http\Controllers\HealthController;
+use Illuminate\Support\Facades\Route;
+
+Route::prefix('v1')
+    ->name('api.v1.')
+    ->group(function (): void {
+        Route::get('/health', HealthController::class)->name('health');
+
+        Route::prefix('auth')->name('auth.')->group(function (): void {
+            Route::post('/email-otp/request', RequestEmailOtpController::class)
+                ->middleware('throttle:email-otp-request')
+                ->name('email-otp.request');
+
+            Route::post('/email-otp/verify', VerifyEmailOtpController::class)
+                ->middleware('throttle:email-otp-verify')
+                ->name('email-otp.verify');
+
+            Route::middleware('auth:sanctum')->group(function (): void {
+                Route::get('/me', MeController::class)->name('me');
+                Route::post('/logout', LogoutController::class)->name('logout');
+            });
+        });
+
+        Route::middleware('auth:sanctum')->group(function (): void {
+            Route::get('/profile', GetProfileController::class)->name('profile.show');
+            Route::patch('/profile', UpdateProfileController::class)->name('profile.update');
+
+            Route::get('/devices', ListDevicesController::class)->name('devices.index');
+            Route::post('/devices', RegisterDeviceController::class)->name('devices.store');
+            Route::delete('/devices/{deviceId}', RevokeDeviceController::class)->name('devices.revoke');
+
+            Route::prefix('presence')->name('presence.')->group(function (): void {
+                Route::put('/', UpdatePresenceController::class)
+                    ->middleware('throttle:120,1')
+                    ->name('update');
+                Route::get('/me', GetMyPresenceController::class)->name('me');
+                Route::patch('/settings', UpdatePresenceSettingsController::class)->name('settings.update');
+            });
+
+            Route::prefix('pings')->name('pings.')->group(function (): void {
+                Route::get('/inbox', ListPingInboxController::class)->name('inbox');
+                Route::get('/sent', ListSentPingsController::class)->name('sent');
+                Route::post('/', SendPingController::class)
+                    ->middleware('throttle:30,1')
+                    ->name('store');
+                Route::post('/{pingId}/respond', RespondToPingController::class)
+                    ->middleware('throttle:60,1')
+                    ->name('respond');
+                Route::post('/{pingId}/dismiss', DismissPingController::class)
+                    ->middleware('throttle:60,1')
+                    ->name('dismiss');
+            });
+
+            Route::prefix('messaging')->name('messaging.')->group(function (): void {
+                Route::get('/settings', GetMessagingSettingsController::class)->name('settings.show');
+                Route::patch('/settings', UpdateMessagingSettingsController::class)->name('settings.update');
+            });
+
+            Route::get('/messages/sync', SyncMessagesController::class)->name('messages.sync');
+            Route::post('/message-envelopes/{envelopeId}/delivered', AcknowledgeMessageDeliveryController::class)
+                ->name('message-envelopes.delivered');
+
+            Route::prefix('circles')->name('circles.')->group(function (): void {
+                Route::get('/', ListCirclesController::class)->name('index');
+                Route::post('/', CreateCircleController::class)->name('store');
+                Route::post('/join', JoinCircleController::class)->name('join');
+
+                Route::get('/{circleId}/presence', ListCirclePresenceController::class)
+                    ->name('presence.index');
+                Route::get('/{circleId}/members/{membershipId}/presence', GetCircleMemberPresenceController::class)
+                    ->name('members.presence.show');
+
+                Route::get('/{circleId}/message-devices', GetCircleMessageDevicesController::class)
+                    ->name('message-devices.index');
+                Route::get('/{circleId}/messages', ListCircleMessagesController::class)
+                    ->name('messages.index');
+                Route::post('/{circleId}/messages', SendEncryptedMessageController::class)
+                    ->middleware('throttle:120,1')
+                    ->name('messages.store');
+                Route::post('/{circleId}/messages/{messageId}/read', MarkMessageReadController::class)
+                    ->middleware('throttle:120,1')
+                    ->name('messages.read');
+                Route::post('/{circleId}/typing', TypingIndicatorController::class)
+                    ->middleware('throttle:120,1')
+                    ->name('typing');
+
+                Route::get('/{circleId}', ShowCircleController::class)->name('show');
+                Route::patch('/{circleId}', UpdateCircleController::class)->name('update');
+                Route::delete('/{circleId}', ArchiveCircleController::class)->name('archive');
+                Route::post('/{circleId}/invites', CreateCircleInviteController::class)->name('invites.store');
+                Route::get('/{circleId}/members', ListCircleMembersController::class)->name('members.index');
+                Route::patch('/{circleId}/members/{membershipId}', UpdateCircleMemberController::class)
+                    ->name('members.update');
+                Route::delete('/{circleId}/members/{membershipId}', RemoveCircleMemberController::class)
+                    ->name('members.destroy');
+                Route::post('/{circleId}/leave', LeaveCircleController::class)->name('leave');
+            });
+        });
+    });
+
+require __DIR__.'/media.php';
+
+require __DIR__.'/moments.php';
+
+require __DIR__.'/sos.php';
+
+require __DIR__.'/activity.php';
+
+require __DIR__.'/notifications.php';
+
+require __DIR__.'/identity.php';
+
+require __DIR__.'/admin.php';
+
+require __DIR__.'/admin_sos.php';
+
+require __DIR__.'/moderation.php';
+
+require __DIR__.'/admin_moderation.php';
+
+require __DIR__.'/privacy_support.php';
+
+require __DIR__.'/admin_privacy_support.php';
+
+require __DIR__.'/billing_advertising.php';
+require __DIR__.'/admin_billing_advertising.php';
+require __DIR__.'/communications_content.php';
+require __DIR__.'/admin_communications_content.php';

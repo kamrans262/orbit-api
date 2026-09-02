@@ -164,3 +164,10 @@ require __DIR__.'/admin_moderation.php';
 require __DIR__.'/privacy_support.php';
 
 require __DIR__.'/admin_privacy_support.php';
+
+require __DIR__.'/billing_advertising.php';
+require __DIR__.'/admin_billing_advertising.php';
+require __DIR__.'/communications_content.php';
+require __DIR__.'/admin_communications_content.php';
+require __DIR__.'/analytics_operations.php';
+require __DIR__.'/admin_analytics_operations.php';

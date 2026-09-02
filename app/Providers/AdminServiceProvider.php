@@ -8,6 +8,8 @@ use App\Models\AdminCircleControl;
 use App\Models\AdminUserControl;
 use App\Models\Circle;
 use App\Models\User;
+use App\Modules\Admin\AnalyticsOperations\Http\Middleware\RecordApiTelemetry;
+use App\Modules\Admin\CommunicationsContent\Http\Middleware\EnforceMaintenanceMode;
 use App\Modules\Admin\Http\Middleware\RejectAdminTokenOnConsumerApi;
 use App\Modules\Admin\Operations\Http\Middleware\EnforceConsumerOperationalControls;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -28,6 +30,8 @@ final class AdminServiceProvider extends ServiceProvider
         // through pushMiddlewareToGroup(). appendMiddlewareToGroup() belongs to
         // the HTTP kernel API and is not a Router method.
         $router->pushMiddlewareToGroup('api', EnforceConsumerOperationalControls::class);
+        $router->pushMiddlewareToGroup('api', EnforceMaintenanceMode::class);
+        $router->pushMiddlewareToGroup('api', RecordApiTelemetry::class);
 
         User::resolveRelationUsing(
             'adminOperationalControl',

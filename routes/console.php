@@ -23,3 +23,6 @@ require __DIR__.'/console_admin.php';
 require __DIR__.'/console_admin_sos.php';
 
 require __DIR__.'/console_privacy_support.php';
+require __DIR__.'/console_billing_advertising.php';
+require __DIR__.'/console_communications_content.php';
+require __DIR__.'/console_analytics_operations.php';

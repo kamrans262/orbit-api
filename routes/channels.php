@@ -33,3 +33,4 @@ require __DIR__.'/channels_notifications.php';
 require __DIR__.'/channels_admin_sos.php';
 
 require __DIR__.'/channels_admin_moderation.php';
+require __DIR__.'/channels_admin_operations.php';
