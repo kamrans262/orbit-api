@@ -9,9 +9,11 @@ use App\Models\AdminUserControl;
 use App\Models\Circle;
 use App\Models\User;
 use App\Modules\Admin\AnalyticsOperations\Http\Middleware\RecordApiTelemetry;
+use App\Modules\Admin\BackendCompletion\Http\Middleware\EnforceAdminIpAllowlist;
 use App\Modules\Admin\CommunicationsContent\Http\Middleware\EnforceMaintenanceMode;
 use App\Modules\Admin\Http\Middleware\RejectAdminTokenOnConsumerApi;
 use App\Modules\Admin\Operations\Http\Middleware\EnforceConsumerOperationalControls;
+use App\Modules\System\Http\Middleware\AttachApiRequestId;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
@@ -25,6 +27,8 @@ final class AdminServiceProvider extends ServiceProvider
         // Preserve strict identity separation in both directions: admin bearer
         // credentials are never accepted as consumer API credentials.
         $router->prependMiddlewareToGroup('api', RejectAdminTokenOnConsumerApi::class);
+        $router->prependMiddlewareToGroup('api', EnforceAdminIpAllowlist::class);
+        $router->prependMiddlewareToGroup('api', AttachApiRequestId::class);
 
         // Laravel Router appends middleware to an existing middleware group
         // through pushMiddlewareToGroup(). appendMiddlewareToGroup() belongs to

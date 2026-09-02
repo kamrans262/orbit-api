@@ -171,5 +171,3 @@ require __DIR__.'/communications_content.php';
 require __DIR__.'/admin_communications_content.php';
 require __DIR__.'/analytics_operations.php';
 require __DIR__.'/admin_analytics_operations.php';
-require __DIR__.'/backend_completion.php';
-require __DIR__.'/admin_backend_completion.php';

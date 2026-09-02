@@ -96,6 +96,14 @@ final class AdminRbacService
         ['name' => 'Manage App Version Policy', 'slug' => 'app_versions.manage', 'description' => 'Change minimum/recommended versions and soft/forced update policy.', 'is_sensitive' => true],
         ['name' => 'View Maintenance Controls', 'slug' => 'maintenance.view', 'description' => 'View global and service-specific maintenance windows.', 'is_sensitive' => false],
         ['name' => 'Manage Maintenance Controls', 'slug' => 'maintenance.manage', 'description' => 'Create, activate, cancel, and schedule maintenance windows without disabling SOS.', 'is_sensitive' => true],
+        ['name' => 'View Admin Dashboard', 'slug' => 'dashboard.view', 'description' => 'View real business and operational administrator dashboard aggregates.', 'is_sensitive' => false],
+        ['name' => 'Configure Admin Dashboard', 'slug' => 'dashboard.configure', 'description' => 'Manage personal administrator dashboard widget layout.', 'is_sensitive' => false],
+        ['name' => 'Use Global Search', 'slug' => 'global_search.use', 'description' => 'Use permission-filtered global administrator search and command navigation.', 'is_sensitive' => false],
+        ['name' => 'View Saved Views', 'slug' => 'views.view', 'description' => 'View personal and shared operational saved filters.', 'is_sensitive' => false],
+        ['name' => 'Manage Saved Views', 'slug' => 'views.manage', 'description' => 'Create and manage personal operational saved filters.', 'is_sensitive' => false],
+        ['name' => 'Share Saved Views', 'slug' => 'views.share', 'description' => 'Publish team-visible operational saved filters.', 'is_sensitive' => false],
+        ['name' => 'View Release Audit', 'slug' => 'release.audit.view', 'description' => 'View backend release-readiness and security configuration audit results.', 'is_sensitive' => false],
+        ['name' => 'Manage Admin IP Policies', 'slug' => 'security.ip_policies.manage', 'description' => 'Restrict administrator credentials to approved IP networks.', 'is_sensitive' => true],
         ['name' => 'View Analytics', 'slug' => 'analytics.view', 'description' => 'View product and business analytics aggregates.', 'is_sensitive' => false],
         ['name' => 'View Saved Reports', 'slug' => 'analytics.reports.view', 'description' => 'View personal and team analytics reports.', 'is_sensitive' => false],
         ['name' => 'Manage Saved Reports', 'slug' => 'analytics.reports.manage', 'description' => 'Create and schedule analytics reports.', 'is_sensitive' => false],
@@ -157,7 +165,7 @@ final class AdminRbacService
     {
         $slugs = match ($roleSlug) {
             'super-administrator' => [
-                'admin.access', 'admins.view', 'admins.manage', 'roles.view', 'roles.manage',
+                'admin.access', 'views.share', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'admins.view', 'admins.manage', 'roles.view', 'roles.manage',
                 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view',
                 'users.view', 'users.controls.manage', 'users.sessions.view', 'users.sessions.revoke',
                 'users.devices.view', 'users.devices.manage', 'users.notes.manage',
@@ -172,7 +180,7 @@ final class AdminRbacService
                 'analytics.view', 'analytics.reports.view', 'analytics.reports.manage', 'analytics.exports.create', 'feature_flags.view', 'remote_config.view', 'remote_config.manage', 'operations.view', 'queues.view', 'incidents.view', 'incidents.manage', 'integrations.view', 'webhooks.view',
             ],
             'platform-administrator' => [
-                'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'audit.view',
+                'admin.access', 'views.share', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'admins.view', 'roles.view', 'sessions.view', 'audit.view',
                 'users.view', 'users.controls.manage', 'users.sessions.view', 'users.sessions.revoke',
                 'users.devices.view', 'users.devices.manage', 'users.notes.manage',
                 'circles.view', 'circles.controls.manage', 'circles.members.enforce', 'circles.notes.manage',
@@ -186,7 +194,7 @@ final class AdminRbacService
                 'analytics.view', 'analytics.reports.view', 'analytics.reports.manage', 'analytics.exports.create', 'feature_flags.view', 'remote_config.view', 'remote_config.manage', 'operations.view', 'queues.view', 'incidents.view', 'incidents.manage', 'integrations.view', 'webhooks.view',
             ],
             'security-administrator' => [
-                'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view',
+                'admin.access', 'views.share', 'security.ip_policies.manage', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'admins.view', 'roles.view', 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view',
                 'users.view', 'users.sessions.view', 'users.sessions.revoke', 'users.devices.view', 'users.devices.manage',
                 'sos.view', 'sos.sensitive.audit', 'reports.view', 'appeals.view', 'risk.view', 'risk.manage',
                 'privacy.view', 'contact_history.view',
@@ -194,46 +202,46 @@ final class AdminRbacService
                 'analytics.view', 'analytics.reports.view', 'analytics.reports.manage', 'analytics.exports.create', 'feature_flags.view', 'remote_config.view', 'operations.view', 'queues.view', 'incidents.view', 'integrations.view', 'webhooks.view',
             ],
             'support-agent' => [
-                'admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'users.notes.manage', 'circles.view',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'users.view', 'users.sessions.view', 'users.devices.view', 'users.notes.manage', 'circles.view',
                 'reports.view', 'appeals.view', 'risk.view',
                 'privacy.view', 'support.view', 'support.manage', 'support.assign', 'support.reply', 'support.notes.manage', 'contact_history.view',
                 'announcements.view', 'templates.view', 'content.view', 'legal.view',
             ],
-            'moderator' => ['admin.access', 'users.view', 'circles.view', 'users.notes.manage', 'circles.notes.manage', 'sos.view', 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce', 'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage'],
+            'moderator' => ['admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'users.view', 'circles.view', 'users.notes.manage', 'circles.notes.manage', 'sos.view', 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce', 'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage'],
             'safety-operator' => [
-                'admin.access', 'users.view', 'users.devices.view', 'circles.view',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'users.view', 'users.devices.view', 'circles.view',
                 'sos.view', 'sos.manage', 'reports.view', 'reports.review', 'reports.assign', 'risk.view',
             ],
             'senior-safety-operator' => [
-                'admin.access', 'users.view', 'users.devices.view', 'circles.view', 'audit.view',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'users.view', 'users.devices.view', 'circles.view', 'audit.view',
                 'sos.view', 'sos.manage', 'sos.export', 'sos.location.access',
                 'sos.recordings.access', 'sos.sensitive.audit', 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce', 'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage',
             ],
             'finance-manager' => [
-                'admin.access', 'users.view', 'contact_history.view',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'users.view', 'contact_history.view',
                 'billing.plans.view', 'billing.plans.manage', 'subscriptions.view', 'subscriptions.manage',
                 'payments.view', 'payments.reconcile', 'refunds.view', 'refunds.manage', 'refunds.approve', 'revenue.view',
             ],
             'marketing-manager' => [
-                'admin.access', 'communications.view', 'communications.manage', 'announcements.view', 'announcements.manage',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'communications.view', 'communications.manage', 'announcements.view', 'announcements.manage',
                 'templates.view', 'templates.manage', 'content.view', 'content.manage', 'legal.view', 'regions.view', 'app_versions.view', 'maintenance.view',
             ],
             'devops-operator' => [
-                'admin.access', 'audit.view', 'communications.view', 'announcements.view', 'content.view', 'regions.view',
+                'admin.access', 'views.share', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'audit.view', 'communications.view', 'announcements.view', 'content.view', 'regions.view',
                 'app_versions.view', 'app_versions.manage', 'maintenance.view', 'maintenance.manage',
                 'analytics.view', 'analytics.reports.view', 'analytics.exports.create', 'feature_flags.view', 'feature_flags.modify', 'remote_config.view', 'remote_config.manage', 'remote_config.critical.manage', 'operations.view', 'operations.manage', 'operations.telemetry.ingest', 'queues.view', 'queues.manage', 'incidents.view', 'incidents.manage', 'integrations.view', 'integrations.manage', 'webhooks.view', 'webhooks.retry',
             ],
             'advertising-manager' => [
-                'admin.access', 'advertising.view', 'advertising.manage', 'billing.plans.view', 'subscriptions.view',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'advertising.view', 'advertising.manage', 'billing.plans.view', 'subscriptions.view',
                 'announcements.view', 'content.view',
             ],
             'analyst' => [
-                'admin.access', 'billing.plans.view', 'subscriptions.view', 'payments.view', 'refunds.view', 'revenue.view', 'advertising.view',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'billing.plans.view', 'subscriptions.view', 'payments.view', 'refunds.view', 'revenue.view', 'advertising.view',
                 'communications.view', 'announcements.view', 'templates.view', 'content.view', 'legal.view', 'regions.view', 'app_versions.view', 'maintenance.view',
                 'analytics.view', 'analytics.reports.view', 'analytics.reports.manage', 'analytics.exports.create', 'feature_flags.view', 'remote_config.view', 'operations.view', 'queues.view', 'incidents.view', 'integrations.view', 'webhooks.view',
             ],
             'compliance-officer' => [
-                'admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view',
                 'sos.view', 'sos.sensitive.audit', 'reports.view', 'appeals.view', 'risk.view',
                 'privacy.view', 'privacy.manage', 'privacy.assign', 'privacy.identity.verify',
                 'privacy.exports.manage', 'privacy.exports.deliver', 'privacy.deletions.manage',
@@ -241,7 +249,7 @@ final class AdminRbacService
                 'legal.view', 'legal.manage', 'regions.view', 'regions.manage', 'announcements.view', 'content.view',
             ],
             'read-only' => [
-                'admin.access', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view',
+                'admin.access', 'dashboard.view', 'dashboard.configure', 'global_search.use', 'views.view', 'views.manage', 'release.audit.view', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view',
                 'circles.view', 'sos.view', 'reports.view', 'appeals.view', 'risk.view',
                 'privacy.view', 'support.view', 'contact_history.view',
                 'billing.plans.view', 'subscriptions.view', 'payments.view', 'refunds.view', 'revenue.view', 'advertising.view',
