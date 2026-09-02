@@ -1,0 +1,21 @@
+@keyframes orbit-spin { to { transform: rotate(360deg); } }
+@keyframes orbit-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@keyframes orbit-float { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(0,-18px,0) scale(1.04); } }
+@keyframes orbit-fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes orbit-scale-in { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes orbit-pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.84); } }
+@keyframes orbit-progress { 0% { transform: scaleX(.02); opacity: 1; } 75% { transform: scaleX(.76); opacity: 1; } 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes orbit-draw { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
+@keyframes orbit-toast { from { opacity: 0; transform: translate3d(18px, 0, 0) scale(.98); } to { opacity: 1; transform: translate3d(0,0,0) scale(1); } }
+
+.skeleton { display: inline-block; position: relative; overflow: hidden; border-radius: 7px; background: linear-gradient(90deg, var(--bg-muted) 25%, var(--bg-soft) 42%, var(--bg-muted) 60%); background-size: 400% 100%; animation: orbit-shimmer 1.25s ease-in-out infinite; }
+.skeleton--text { width: 88px; height: 13px; vertical-align: middle; }
+.skeleton--value { width: 82px; height: 30px; }
+.skeleton--short { width: 56px; height: 10px; }
+.skeleton--circle { width: 38px; height: 38px; border-radius: 999px; }
+.route-progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 1000; transform: scaleX(0); transform-origin: left; background: linear-gradient(90deg, var(--primary), #a58ef5, #48c6ef); opacity: 0; }
+.route-progress.is-active { animation: orbit-progress .75s var(--ease-out) forwards; }
+.pulse-dot, .live-pill__dot { animation: orbit-pulse 1.8s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

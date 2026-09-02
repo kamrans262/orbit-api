@@ -1,0 +1,70 @@
+@media (max-width: 1280px) {
+    :root { --sidebar-width: 246px; }
+    .stats-grid { grid-template-columns: repeat(4,minmax(0,1fr)); }
+    .health-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media (max-width: 1080px) {
+    .auth-shell { grid-template-columns: 1fr 1fr; }
+    .auth-story { padding-inline: 42px; }
+    .auth-story__copy h1 { font-size: 46px; }
+    .stats-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .dashboard-grid--primary, .dashboard-grid--secondary, .dashboard-grid--bottom { grid-template-columns: 1fr; }
+    .integration-list { grid-template-columns: repeat(3,minmax(0,1fr)); }
+}
+
+@media (max-width: 900px) {
+    .auth-shell { grid-template-columns: 1fr; }
+    .auth-story { display: none; }
+    .auth-panel { min-height: 100vh; padding: 60px 20px 72px; }
+    .auth-theme-toggle { top: 18px; right: 18px; }
+    .auth-footnote { bottom: 18px; padding-inline: 20px; }
+
+    .app-shell, .admin-app.is-sidebar-collapsed .app-shell { grid-template-columns: 1fr; }
+    .sidebar { position: fixed; left: 0; top: 0; width: min(292px, 86vw); transform: translateX(-102%); box-shadow: var(--shadow-lg); transition: transform var(--duration) var(--ease-out); }
+    .admin-app.is-mobile-menu-open .sidebar { transform: translateX(0); }
+    .admin-app.is-mobile-menu-open .mobile-scrim { display: block; position: fixed; inset: 0; z-index: 45; background: rgba(5,9,18,.48); backdrop-filter: blur(3px); }
+    .sidebar__collapse { display: none !important; }
+    .mobile-menu-button { display: inline-grid !important; }
+    .topbar { padding-inline: 16px; }
+    .global-search-trigger { width: min(430px, 50vw); }
+    .workspace__main { padding-inline: 18px; }
+    .admin-app.is-sidebar-collapsed .orbit-brand__copy, .admin-app.is-sidebar-collapsed .nav-label, .admin-app.is-sidebar-collapsed .nav-item__label, .admin-app.is-sidebar-collapsed .nav-item__soon, .admin-app.is-sidebar-collapsed .sidebar-health__copy { opacity: 1; pointer-events: auto; width: auto; overflow: visible; }
+    .admin-app.is-sidebar-collapsed .sidebar__top { padding: 0 20px 0 24px; justify-content: space-between; }
+    .admin-app.is-sidebar-collapsed .nav-item { justify-content: flex-start; padding-inline: 12px; }
+}
+
+@media (max-width: 680px) {
+    .topbar { height: 66px; }
+    :root { --topbar-height: 66px; }
+    .global-search-trigger { width: 40px; padding: 0; justify-content: center; }
+    .global-search-trigger span, .global-search-trigger kbd { display: none; }
+    .profile-trigger { padding-right: 4px; }
+    .profile-trigger__copy, .profile-trigger > .ui-icon { display: none; }
+    .topbar__right { gap: 2px; }
+    .notification-button { display: none; }
+    .workspace__main { padding-top: 23px; padding-inline: 14px; }
+    .page-heading { align-items: flex-start; flex-direction: column; gap: 12px; margin-bottom: 19px; }
+    .page-heading__meta { width: 100%; justify-content: space-between; }
+    .page-heading h1 { font-size: 28px; }
+    .page-heading p { font-size: 11px; }
+    .stats-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }
+    .stat-card { min-height: 134px; padding: 14px; border-radius: 17px; }
+    .stat-value { font-size: 24px; }
+    .dashboard-card { border-radius: 17px; padding: 15px; }
+    .engagement-grid { grid-template-columns: 1fr; }
+    .health-grid { grid-template-columns: 1fr; }
+    .integration-list { grid-template-columns: 1fr; }
+    .command-palette { padding-top: 74px; align-items: start; }
+    .command-palette__panel { max-height: calc(100vh - 92px); border-radius: 18px; }
+    .profile-menu { position: fixed; right: 12px; top: 64px; width: min(300px, calc(100vw - 24px)); }
+}
+
+@media (max-width: 430px) {
+    .auth-card { border-radius: 20px; padding: 26px 20px; }
+    .auth-card__header { gap: 12px; }.auth-icon { width: 42px; height: 42px; border-radius: 12px; }.auth-card__header h2 { font-size: 26px; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .stat-card { min-height: 126px; }.stat-card__top { margin-bottom: 14px; }.stat-icon { width: 33px; height: 33px; }.stat-label { max-width: 115px; }
+    .live-pill { font-size: 7px; }.updated-at { display: none; }
+    .growth-numbers { gap: 5px; }.growth-numbers div { padding: 8px; }
+}
