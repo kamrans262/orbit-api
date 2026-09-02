@@ -40,6 +40,18 @@ final class AdminRbacService
         ['name' => 'Access Precise SOS Location', 'slug' => 'sos.location.access', 'description' => 'View precise SOS location after reauthentication and reason capture.', 'is_sensitive' => true],
         ['name' => 'Access SOS Recording Reference', 'slug' => 'sos.recordings.access', 'description' => 'View the opaque encrypted SOS recording reference after reauthentication and reason capture.', 'is_sensitive' => true],
         ['name' => 'View SOS Sensitive Access History', 'slug' => 'sos.sensitive.audit', 'description' => 'Review immutable sensitive SOS access records.', 'is_sensitive' => true],
+
+        ['name' => 'View Reports', 'slug' => 'reports.view', 'description' => 'View moderation reports and privacy-safe case evidence.', 'is_sensitive' => false],
+        ['name' => 'Review Reports', 'slug' => 'reports.review', 'description' => 'Triage and move moderation cases through review workflows.', 'is_sensitive' => false],
+        ['name' => 'Assign Reports', 'slug' => 'reports.assign', 'description' => 'Assign or reassign moderation cases.', 'is_sensitive' => false],
+        ['name' => 'Manage Report Notes', 'slug' => 'reports.notes.manage', 'description' => 'Create internal moderation case notes.', 'is_sensitive' => false],
+        ['name' => 'Apply Report Enforcement', 'slug' => 'reports.enforce', 'description' => 'Apply audited user or Circle enforcement from a moderation case.', 'is_sensitive' => true],
+        ['name' => 'View Appeals', 'slug' => 'appeals.view', 'description' => 'View consumer enforcement appeals.', 'is_sensitive' => false],
+        ['name' => 'Assign Appeals', 'slug' => 'appeals.assign', 'description' => 'Assign appeal reviews to eligible administrators.', 'is_sensitive' => false],
+        ['name' => 'Review Appeals', 'slug' => 'appeals.review', 'description' => 'Decide appeals and restore enforcement where authorized.', 'is_sensitive' => true],
+        ['name' => 'Second Review Appeals', 'slug' => 'appeals.second_review', 'description' => 'Perform required independent second review of sensitive appeal decisions.', 'is_sensitive' => true],
+        ['name' => 'View Risk Center', 'slug' => 'risk.view', 'description' => 'View user abuse and risk profiles and signal timelines.', 'is_sensitive' => false],
+        ['name' => 'Manage Risk Signals', 'slug' => 'risk.manage', 'description' => 'Create and resolve audited abuse and risk signals.', 'is_sensitive' => true],
     ];
 
     private const array ROLES = [
@@ -87,6 +99,8 @@ final class AdminRbacService
                 'users.devices.view', 'users.devices.manage', 'users.notes.manage',
                 'circles.view', 'circles.controls.manage', 'circles.members.enforce', 'circles.notes.manage',
                 'sos.view', 'sos.manage', 'sos.export',
+                'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce',
+                'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage',
             ],
             'platform-administrator' => [
                 'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'audit.view',
@@ -94,28 +108,31 @@ final class AdminRbacService
                 'users.devices.view', 'users.devices.manage', 'users.notes.manage',
                 'circles.view', 'circles.controls.manage', 'circles.members.enforce', 'circles.notes.manage',
                 'sos.view',
+                'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage',
+                'appeals.view', 'appeals.assign', 'risk.view',
             ],
             'security-administrator' => [
                 'admin.access', 'admins.view', 'roles.view', 'sessions.view', 'sessions.revoke', 'audit.view', 'security.view',
                 'users.view', 'users.sessions.view', 'users.sessions.revoke', 'users.devices.view', 'users.devices.manage',
-                'sos.view', 'sos.sensitive.audit',
+                'sos.view', 'sos.sensitive.audit', 'reports.view', 'appeals.view', 'risk.view', 'risk.manage',
             ],
             'support-agent' => [
                 'admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'users.notes.manage', 'circles.view',
+                'reports.view', 'appeals.view', 'risk.view',
             ],
-            'moderator' => ['admin.access', 'users.view', 'circles.view', 'users.notes.manage', 'circles.notes.manage', 'sos.view'],
+            'moderator' => ['admin.access', 'users.view', 'circles.view', 'users.notes.manage', 'circles.notes.manage', 'sos.view', 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce', 'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage'],
             'safety-operator' => [
                 'admin.access', 'users.view', 'users.devices.view', 'circles.view',
-                'sos.view', 'sos.manage',
+                'sos.view', 'sos.manage', 'reports.view', 'reports.review', 'reports.assign', 'risk.view',
             ],
             'senior-safety-operator' => [
                 'admin.access', 'users.view', 'users.devices.view', 'circles.view', 'audit.view',
                 'sos.view', 'sos.manage', 'sos.export', 'sos.location.access',
-                'sos.recordings.access', 'sos.sensitive.audit',
+                'sos.recordings.access', 'sos.sensitive.audit', 'reports.view', 'reports.review', 'reports.assign', 'reports.notes.manage', 'reports.enforce', 'appeals.view', 'appeals.assign', 'appeals.review', 'appeals.second_review', 'risk.view', 'risk.manage',
             ],
-            'compliance-officer' => ['admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view', 'sos.view', 'sos.sensitive.audit'],
+            'compliance-officer' => ['admin.access', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'audit.view', 'sos.view', 'sos.sensitive.audit', 'reports.view', 'appeals.view', 'risk.view'],
             'read-only' => [
-                'admin.access', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'sos.view',
+                'admin.access', 'admins.view', 'roles.view', 'audit.view', 'users.view', 'users.sessions.view', 'users.devices.view', 'circles.view', 'sos.view', 'reports.view', 'appeals.view', 'risk.view',
             ],
             default => ['admin.access'],
         };

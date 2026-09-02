@@ -156,7 +156,3 @@ require __DIR__.'/identity.php';
 require __DIR__.'/admin.php';
 
 require __DIR__.'/admin_sos.php';
-
-require __DIR__.'/moderation.php';
-
-require __DIR__.'/admin_moderation.php';

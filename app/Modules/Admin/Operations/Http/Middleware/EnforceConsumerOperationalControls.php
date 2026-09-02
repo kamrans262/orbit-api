@@ -34,18 +34,25 @@ final class EnforceConsumerOperationalControls
             return $next($request);
         }
 
+        $appealRoute = $this->isAppealSubmissionRoute($request);
+        $appealOnlyToken = $this->isAppealOnlyToken($token);
+
+        if ($appealOnlyToken && ! $appealRoute) {
+            return $this->error('This access token is restricted to account appeals.', 'TOKEN_SCOPE_RESTRICTED', 403);
+        }
+
         $control = AdminUserControl::query()->whereKey($user->id)->first();
         if ($control !== null) {
-            if ($this->isSuspended($control)) {
+            if ($this->isSuspended($control) && ! $appealRoute) {
                 return $this->error('This Orbit account is suspended.', 'ACCOUNT_SUSPENDED', 403);
             }
-            if ($control->require_reverification) {
+            if ($control->require_reverification && ! $appealRoute) {
                 return $this->error('Account re-verification is required.', 'REVERIFICATION_REQUIRED', 401);
             }
-            if ($this->featureRestricted((array) ($control->feature_restrictions ?? []), $request, false)) {
+            if (! $appealRoute && $this->featureRestricted((array) ($control->feature_restrictions ?? []), $request, false)) {
                 return $this->error('This account is restricted from using this feature.', 'FEATURE_RESTRICTED', 403);
             }
-            if (! $request->is('api/v1/sos/*', 'api/v1/sos') && $control->rate_limit_per_minute !== null && ! $this->withinUserRateLimit($user, (int) $control->rate_limit_per_minute)) {
+            if (! $appealRoute && ! $request->is('api/v1/sos/*', 'api/v1/sos') && $control->rate_limit_per_minute !== null && ! $this->withinUserRateLimit($user, (int) $control->rate_limit_per_minute)) {
                 return $this->error('This account has reached its administrative rate limit.', 'ADMIN_RATE_LIMITED', 429);
             }
         }
@@ -210,6 +217,23 @@ final class EnforceConsumerOperationalControls
         $token = PersonalAccessToken::findToken($plain);
 
         return $token?->tokenable instanceof User ? $token : null;
+    }
+
+    private function isAppealSubmissionRoute(Request $request): bool
+    {
+        return $request->is('api/v1/appeals') && strtoupper($request->method()) === 'POST';
+    }
+
+    private function isAppealOnlyToken(?PersonalAccessToken $token): bool
+    {
+        if ($token === null) {
+            return false;
+        }
+
+        $abilities = is_array($token->abilities) ? $token->abilities : [];
+
+        return $token->name === 'moderation-appeal'
+            || ($abilities === ['appeals:submit']);
     }
 
     private function isSuspended(AdminUserControl $control): bool
