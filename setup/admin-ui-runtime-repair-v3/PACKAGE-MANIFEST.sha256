@@ -1,0 +1,12 @@
+d3f2a004cd1afedd05f11ad18b8069c54649b9fe3e8b9ccf3d85f55e1cb85b93  ./README.md
+c40f1efa522fccc1a226fdc3450aa94424b621debccd9d7615c329a758fdf605  ./install-admin-ui-runtime-repair-v3.ps1
+981eef751fd42cd03991538e7f746e0b5d6ad61169335060d4ad9d9ce2f74077  ./install-runtime-repair-v3.mjs
+877b6f8c580eef6a652d487a1bd615e643c57f60cdec736517869d46f1e80cfb  ./rollback-admin-ui-runtime-repair-v3.ps1
+0fb2484737770a53fd490e992df05f320123d6a178a68f9e9502d62dcc03bc76  ./rollback-runtime-repair-v3.mjs
+246c02f8fb23d0dffa556b8b941b0b908a7ae7ad314d3bf17c1c80c78df81af7  ./self-test-command-runner.mjs
+702d598b169c40be635f4a347b2cb94f6f85afc52b9543d352228db59ce888e6  ./self-test-transport-discovery.mjs
+9108e295f1e2f7a036b33b43d6557f5cf32ce2f650a15185af016c1c88eac9ee  ./templates/AdminRuntimeIntegrationContractTest.php
+62b716d3f5cd31aa45f041f3b0b89a03cee151859b7ee42d97ed1ecd3b0f3192  ./templates/admin-api-client.js
+e3f17ce6e0af5ed515bd997ed09c9ede6ce646b561d7aaee3f92c23f13124619  ./transport-discovery.mjs
+cad32ff010fe815de74169ca8d390229e6177e08e635e23a2081994dc9ea67da  ./verify-admin-ui-runtime-repair-v3.ps1
+e251f955299db510e9308b7fefe6601579efb5f645f4a160773e598b573f5f58  ./verify-runtime-repair-v3.mjs

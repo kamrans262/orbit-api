@@ -1,0 +1,10 @@
+9ebc6d84988fb38545e51572fee7ae9f0e9763ff66a9e485f690d0b7a7077efd  ./README.md
+89bc12fff9a3f2687582c3472057bba565db1c3f47cb60a0d4a03d6aa0f0e24a  ./install-admin-ui-runtime-repair.ps1
+1813908537732cd399df89a63cb129e26aaf9447e2faf51560b5b377043d808b  ./install-runtime-repair.mjs
+89c17f0019035348a608b354d5d67a7ecfab5b221e84801d5a822018ec574870  ./rollback-admin-ui-runtime-repair.ps1
+519cd21c98ad461cd19090f42e867b2a923104be6e51baf1fcbc6eb8dd35aa01  ./rollback-runtime-repair.mjs
+6a58b966c3a238a7f2aa476841eb7c2e7943fa73e0d13f7c2c3e83f9ef1b1978  ./self-test-command-runner.mjs
+c660c2b60aa4535acdf0830e11d6ada65e6a605453ead6a61edb52aa62528aa8  ./templates/AdminRuntimeIntegrationContractTest.php
+842c239318d823493a709da766b9a127fdac72aeb569d018992c4c22cdec3a5f  ./templates/admin-api-client.js
+23d5b882fbd23366a802dd9e8f51218f3269b68d73b8fd571c4a44b70820da45  ./verify-admin-ui-runtime-repair.ps1
+243a5680bc011438d3cd8722ca34bf4b807aa511bfe63a6a0447123b83ffdfcf  ./verify-runtime-repair.mjs

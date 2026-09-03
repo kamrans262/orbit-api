@@ -1,0 +1,25 @@
+# Orbit Admin UI M3 Package Manifest
+
+SHA-256 hashes of final package files (MANIFEST.sha256 itself excluded):
+
+050178717d422851a845def5bb7b4a79b2a6dcb83862823dfe9fcc9bd618e4e9  setup/admin-ui-m3/README.md
+cd5293345432182282bc88ef4966aed1ad347ec9b9aac507169f8bfa7482909a  setup/admin-ui-m3/VALIDATION.md
+e612ac7e10effe90eba59d12c14eb882a3adffa55b3e28072fb84b2cedd125bf  setup/admin-ui-m3/generate-sos-contract.mjs
+d1a20d700f990a929520de59f1227778763b634b0968c0cfbea5c86bab8c92c8  setup/admin-ui-m3/generate-sos-contract.ps1
+088574bb30e8d162f86962dd058c8d0bc86fab726a4fc3d1d6abb526f96e370b  setup/admin-ui-m3/install-admin-ui-m3.ps1
+5f2ffe72734f549c0c373f2b9e6e54f86ca85237a814512abb5c07f391e32ca0  setup/admin-ui-m3/payload/resources/css/admin-console.css
+71c97b63ef2c709c90f3d01af2ae226d892bfe63f2e18fc7adbc3d2078d68147  setup/admin-ui-m3/payload/resources/js/admin-console/index.js
+d0a645462029d574feb7e23f01fea8865c41ff6fdcdf3c496b233912aadb15fd  setup/admin-ui-m3/payload/resources/js/admin-console/shell.js
+9386dc6e9235c9a30628ffdc2de4a9acc2a1e7b1fd97e2113bfa6e67ca4bb3fa  setup/admin-ui-m3/payload/resources/js/admin-console/sos-contract.js
+b20ba5225431766213dd31d6006cff2cc26d552ce3cafafd0ee73c019e35a736  setup/admin-ui-m3/payload/resources/js/admin-console/sos.js
+8d9268ffc2e4a5e19b4691c78ba1973f2101bc262fda1158a0e54f514cf102cc  setup/admin-ui-m3/payload/resources/js/admin-console/ui.js
+41ccc800f7c5982c529b2e43a0c34ed8915b3d434fbeb8c19a50cef646384fd7  setup/admin-ui-m3/payload/resources/views/admin/operations/sos/index.blade.php
+981d41c98862ad2ab13b86654b291f39617a51a226b06fd89f1449b0fee4a8c1  setup/admin-ui-m3/payload/resources/views/admin/operations/sos/show.blade.php
+ec47dd1be21e43eee4d9e118bdb80a3a615905149a6b3c9f8167df83d2459c30  setup/admin-ui-m3/payload/resources/views/admin/partials/sidebar.blade.php
+167ae7499171029c6b468f597bf35031e69b5ce1068bc8d17e5065ecc0bae55d  setup/admin-ui-m3/payload/routes/admin_console.php
+45c60dc325790d5c990927f4c22e8310784f2493795ced095783f186d9b8e345  setup/admin-ui-m3/payload/tests/Feature/AdminUi/AdminConsoleConsolidationTest.php
+6d0e78290caaff820f32318d4afc456095526fd8261ed2fa86a3279bb3ac4092  setup/admin-ui-m3/payload/tests/Feature/AdminUi/AdminSosCommandCenterUiTest.php
+89fe9eb76f489cd5d64f0c0f03d6bff6cac2e561553abaf415dde245ee58b9e1  setup/admin-ui-m3/rollback-admin-ui-m3.ps1
+3e3ca98339591d29e36f435ba126fe65e525801de65bf2973051d384f17380c7  setup/admin-ui-m3/tests/sos-route-generator.mjs
+1b1a8d9038d0e735b3bf21681e5d6c028bbb4f3358bbb85c30b0ac0e72fa978f  setup/admin-ui-m3/tests/sos-ui-contract.mjs
+7396a98da3eeecc11db05ba07096ac802a16ffa18b2c6afa2e8c70683c29a6e9  setup/admin-ui-m3/verify-admin-ui-m3.ps1

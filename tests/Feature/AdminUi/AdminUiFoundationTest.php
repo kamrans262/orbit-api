@@ -30,8 +30,8 @@ it('renders the responsive dashboard shell without server side business data', f
 
     $response->assertOk()
         ->assertSee('Operations overview')
-        ->assertSee('Search users, Circles, incidents', false)
-        ->assertSee('admin-ui/js/pages/dashboard.js', false)
+        ->assertSee('Search Orbit administration', false)
+        ->assertSee('resources/js/admin-console/index.js', false)
         ->assertDontSee('message_envelopes')
         ->assertDontSee('ciphertext');
 });

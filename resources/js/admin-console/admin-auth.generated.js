@@ -1,0 +1,3 @@
+// Generated compatibility metadata for M4/M5. Do not hand edit.
+// Authentication is owned exclusively by auth-session.js + api-client.js.
+export const adminAuthContract = {"strategy":"canonical-auth-session-module","storageCandidates":[],"sourceRoots":["resources/js/admin-console/auth-session.js","resources/js/admin-console/api-client.js"],"graphFiles":["resources/js/admin-console/auth-session.js","resources/js/admin-console/api-client.js","resources/js/admin-console/shell.js"],"evidenceFiles":["resources/js/admin-console/auth-session.js","resources/js/admin-console/api-client.js"],"signals":{"sendsBearer":true,"cookieCredentials":true,"adminApi":true,"usesFetch":true}};

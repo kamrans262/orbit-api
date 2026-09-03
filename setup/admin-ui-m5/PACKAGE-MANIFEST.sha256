@@ -1,0 +1,13 @@
+cb0b72d964118d9028b97ae9ffa04dca015568e291685ef4412019a8bf004978  ./README.md
+3f01da1771347f2e99da46c11e34ff849918972ea1c57b7cb2a60d12b10a43f3  ./generate-support-contract.mjs
+10147111338cbad2cef64b7a4551fbb95e699416bd434486a2e97dba272594a7  ./install-admin-ui-m5.ps1
+c084fe7b8f21bb0197608543295bbef62042b8f39ad5d1b183f1aa76ac0e0c45  ./rollback-admin-ui-m5.ps1
+2a8c8861e76e99aea5151942302f57fb581784dff024e8438d33eabcf77a32bd  ./templates/AdminSupportManagementUiTest.php
+fd7086e6d9780e06199e3d85a337f31b12cd62278e48cfcf1f1da0051b97b38c  ./templates/AdminSupportRenderingSmokeTest.php
+5fcb721ba6188f165f45009122c985e342950156cedb4b5e3a9c18b835039941  ./templates/admin-console-m5.css
+894262c98143271c1412b2974cf224e4b251a01f59e628ff568ddf24c1882b85  ./templates/routes_admin_ui_m5.php.tpl
+b7942e3a976cc1b8890d3364fa0b793f1084b26cdf31e1c423eef60286bce791  ./templates/support-index.blade.php.tpl
+9031d221b6ee8e6e4632a7ce0fff292233ac022c5b9593846dac7e6d2dfbecd6  ./templates/support-m5.js
+138189bb2a2ebf29f3df43b0c15870909b61f735e45efff053dde07abe473fc9  ./templates/support-show.blade.php.tpl
+5c8a451e2543b27b227018f02bc0f0f9cc0223f847cb3ddd4dd86a7c8e572106  ./verify-admin-ui-m5.ps1
+21cc13d7b41e2bf8639ec8c1be629cbc800f4ce1055ce45b573317a2b3de9650  ./verify-support-ui-contract.mjs
